@@ -3,6 +3,7 @@ package com.programing.product_service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.programing.product_service.dto.ProductRequest;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -26,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class ProductServiceApplicationTests {
 
 	@Container
-	static MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo:4.4.2");
+	static MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo:6.0");
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -57,6 +58,14 @@ class ProductServiceApplicationTests {
 				.price(BigDecimal.valueOf(1200))
 				.build();
 	}
+
+	@BeforeAll
+	static void setUp() {
+		mongoDBContainer.start();
+		System.out.println("MongoDB is running at: " + mongoDBContainer.getReplicaSetUrl());
+		System.out.println("MongoDB logs:\n" + mongoDBContainer.getLogs());
+	}
+
 
 }
 
